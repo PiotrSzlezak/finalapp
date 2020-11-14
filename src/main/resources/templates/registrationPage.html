@@ -9,6 +9,7 @@
 <form th:object="${userRegistrationData}" action="/registration" method="post">
     <label for="fn">First Name</label>
     <input th:field="*{firstName}" id="fn">
+    <p th:if="${firstNameValidationResult}" th:text="${firstNameValidationResult}"></p>
     <br>
     <label for="lname">Last Name</label>
     <input th:field="*{lastName}" id="lname">
