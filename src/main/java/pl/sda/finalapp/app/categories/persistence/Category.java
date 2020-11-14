@@ -1,4 +1,7 @@
-package pl.sda.finalapp.app;
+package pl.sda.finalapp.app.categories.persistence;
+
+import pl.sda.finalapp.app.categories.api.CategoryTreeDTO;
+
 /* domenowy model danych */
 public class Category {
 
@@ -44,7 +47,7 @@ public class Category {
         return depth;
     }
 
-    public CategoryDTO toDTO (){
-        return new CategoryDTO(id, parentId, categoryName);
+    public CategoryTreeDTO toDTO (){
+        return new CategoryTreeDTO(id, parentId, categoryName);
     }
 }

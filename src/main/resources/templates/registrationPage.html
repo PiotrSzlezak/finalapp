@@ -16,6 +16,7 @@
     <br>
     <label for="email">E-mail</label>
     <input th:field="*{eMail}" id="email">
+    <p th:if="${emailAlreadyExists}" th:text="${emailAlreadyExists}"></p>
     <br>
     <label for="pass">Password</label>
     <input th:field="*{password}" id="pass">

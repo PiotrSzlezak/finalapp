@@ -1,4 +1,4 @@
-package pl.sda.finalapp.app;
+package pl.sda.finalapp.app.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,7 +33,14 @@ public class UserController {
             model.addAttribute("countryList", Countries.values());
             return "registrationPage";
         }
-        userService.registerUser(userRegistrationDTO);
+        try {
+            userService.registerUser(userRegistrationDTO);
+        } catch (EmailAlreadyExistsException e) {
+            model.addAttribute("emailAlreadyExists", e.getMessage());
+            model.addAttribute("userRegistrationData", userRegistrationDTO);
+            model.addAttribute("countryList", Countries.values());
+            return "registrationPage";
+        }
         model.addAttribute("email", userRegistrationDTO.geteMail());
         return "welcomePage";
     }

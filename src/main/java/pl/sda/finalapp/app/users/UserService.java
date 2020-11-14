@@ -1,4 +1,4 @@
-package pl.sda.finalapp.app;
+package pl.sda.finalapp.app.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ public class UserService {
     public void registerUser(UserRegistrationDTO dto) {
         userRepository.findByEMail(dto.geteMail())
                 .ifPresent(e -> {
-                    throw new RuntimeException("Email " + dto.geteMail() + " already in use.");
+                    throw new EmailAlreadyExistsException("Email " + dto.geteMail() + " already in use.");
                 });
         userRepository.save(User.applyDTO(dto));
     }
