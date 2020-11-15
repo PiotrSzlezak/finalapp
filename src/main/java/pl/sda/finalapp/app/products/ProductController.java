@@ -24,6 +24,7 @@ public class ProductController {
     public String products(Model model) {
         model.addAttribute("productTypesList", ProductType.values());
         model.addAttribute("categoriesList", categoryService.findAll());
+        model.addAttribute("productsList", productService.allProducts());
         return "productsPage";
     }
 

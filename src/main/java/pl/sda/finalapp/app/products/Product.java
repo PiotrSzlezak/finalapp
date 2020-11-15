@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 @Entity
 public class Product {
-//    @Id
+    //    @Id
 //    private UUID uuid = UUID.randomUUID();
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -29,5 +29,20 @@ public class Product {
         newProduct.categoryId = productDTO.getCategoryId();
 
         return newProduct;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public ProductListDTO toListDTO(String categoryNameWithId) {
+        return new ProductListDTO(
+                id,
+                title,
+                description,
+                pictureUrl,
+                price,
+                productType,
+                categoryNameWithId);
     }
 }
