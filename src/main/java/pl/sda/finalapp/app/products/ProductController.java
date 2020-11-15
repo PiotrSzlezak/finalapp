@@ -17,6 +17,8 @@ public class ProductController {
 
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private ProductService productService;
 
     @GetMapping("/products")
     public String products(Model model) {
@@ -32,6 +34,9 @@ public class ProductController {
                              @RequestParam BigDecimal price,
                              @RequestParam ProductType productType,
                              @RequestParam Integer categoryId) {
+
+        productService.addProduct(new ProductDTO(title, description, pictureUrl, price, productType, categoryId));
+
         return "redirect:/products";
     }
 

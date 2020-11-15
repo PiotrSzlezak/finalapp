@@ -19,4 +19,15 @@ public class Product {
     private ProductType productType;
     private Integer categoryId;
 
+    public static Product fromDTO(ProductDTO productDTO) {
+        Product newProduct = new Product();
+        newProduct.title = productDTO.getTitle();
+        newProduct.description = productDTO.getDescription();
+        newProduct.pictureUrl = productDTO.getPictureUrl();
+        newProduct.price = productDTO.getPrice();
+        newProduct.productType = productDTO.getProductType();
+        newProduct.categoryId = productDTO.getCategoryId();
+
+        return newProduct;
+    }
 }
