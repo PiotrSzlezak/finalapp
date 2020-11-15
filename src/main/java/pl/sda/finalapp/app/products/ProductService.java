@@ -37,4 +37,11 @@ public class ProductService {
                 .map(p -> p.toDTO())
                 .orElseThrow(() -> new ProductNotFoundException(productId));
     }
+
+    public void editProduct(ProductDTO productDTO) {
+        Product product = productRepository.findById(productDTO.getId())
+                .orElseThrow(() -> new ProductNotFoundException(productDTO.getId()));
+        product.apply(productDTO);
+        productRepository.save(product);
+    }
 }

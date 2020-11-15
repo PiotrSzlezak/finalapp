@@ -5,6 +5,8 @@
     <title>Edycja produktu</title>
 </head>
 <body>
+<div th:replace="/fragments/header :: headerFragment">
+</div>
 <form th:object="${product}" th:action="@{/products/{id}(id=${product.id})}" method="post">
     <input th:field="*{title}" placeholder="Title"><br>
     <input th:field="*{description}" placeholder="Description"><br>

@@ -56,4 +56,13 @@ public class Product {
                 productType,
                 categoryId);
     }
+
+    public void apply(ProductDTO productDTO) {
+        this.title = productDTO.getTitle();
+        this.description = productDTO.getDescription();
+        this.pictureUrl = productDTO.getPictureUrl();
+        this.price = productDTO.getPrice();
+        this.productType = productDTO.getProductType();
+        this.categoryId = productDTO.getCategoryId();
+    }
 }

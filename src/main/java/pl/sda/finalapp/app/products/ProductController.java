@@ -37,11 +37,16 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public String editProduct(@PathVariable(name = "id") Integer productId, Model model){
+    public String editForm(@PathVariable(name = "id") Integer productId, Model model){
         model.addAttribute("product", productService.findProductById(productId));
         model.addAttribute("productTypesList", ProductType.values());
         model.addAttribute("categoriesList", categoryService.findAll());
         return "productEditPage";
     }
 
+    @PostMapping("/products/{id}")
+    public String editProduct (@ModelAttribute ProductDTO product, @PathVariable(name = "id") Integer productId){
+        productService.editProduct(product);
+        return "redirect:/products";
+    }
 }
