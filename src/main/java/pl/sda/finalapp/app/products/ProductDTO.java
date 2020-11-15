@@ -20,6 +20,11 @@ public class ProductDTO {
         this.categoryId = categoryId;
     }
 
+    public ProductDTO(Integer id, String title, String description, String pictureUrl, BigDecimal price, ProductType productType, Integer categoryId) {
+        this(title, description, pictureUrl, price, productType, categoryId);
+        this.id = id;
+    }
+
     public Integer getId() {
         return id;
     }

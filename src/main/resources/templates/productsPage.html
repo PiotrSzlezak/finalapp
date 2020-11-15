@@ -23,9 +23,10 @@
         <td th:text="${p.description}">Description</td>
         <td th:text="${p.pictureUrl}">Picture</td>
         <td th:text="${p.price}">Price</td>
-        <td th:text="${p.productType}">Product Type</td>
+        <td th:text="${p.productType.plName}">Product Type</td>
         <td th:text="${p.category}">Category</td>
-        <td></td>
+<!--        <td><a th:href="@{'/products/' + ${p.id}}">Edytuj produkt</a></td>-->
+        <td><a th:href="@{/products/{id}(id=${p.id})}">Edytuj produkt</a></td>
     </tr>
 </table>
 

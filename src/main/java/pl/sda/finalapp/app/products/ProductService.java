@@ -31,4 +31,10 @@ public class ProductService {
                  .orElse("BŁĄD! Kategoria produktu o ID= "+ p.getCategoryId() +" nie istnieje.");
         return p.toListDTO(catNameWithId);
     }
+
+    public ProductDTO findProductById(Integer productId) {
+        return productRepository.findById(productId)
+                .map(p -> p.toDTO())
+                .orElseThrow(() -> new ProductNotFoundException(productId));
+    }
 }

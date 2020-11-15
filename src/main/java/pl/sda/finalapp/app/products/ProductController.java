@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pl.sda.finalapp.app.categories.domain.CategoryService;
 
 import java.math.BigDecimal;
@@ -35,10 +32,16 @@ public class ProductController {
                              @RequestParam BigDecimal price,
                              @RequestParam ProductType productType,
                              @RequestParam Integer categoryId) {
-
         productService.addProduct(new ProductDTO(title, description, pictureUrl, price, productType, categoryId));
-
         return "redirect:/products";
+    }
+
+    @GetMapping("/products/{id}")
+    public String editProduct(@PathVariable(name = "id") Integer productId, Model model){
+        model.addAttribute("product", productService.findProductById(productId));
+        model.addAttribute("productTypesList", ProductType.values());
+        model.addAttribute("categoriesList", categoryService.findAll());
+        return "productEditPage";
     }
 
 }

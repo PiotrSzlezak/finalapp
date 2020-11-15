@@ -45,4 +45,15 @@ public class Product {
                 productType,
                 categoryNameWithId);
     }
+
+    public ProductDTO toDTO() {
+        return new ProductDTO(
+                id,
+                title,
+                description,
+                pictureUrl,
+                price,
+                productType,
+                categoryId);
+    }
 }
