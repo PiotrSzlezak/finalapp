@@ -1,6 +1,7 @@
 package pl.sda.finalapp.app.users;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,7 @@ public class User {
     private String phone;
     private boolean preferEmails;
     @ManyToMany
-    @JoinTable(name="Users_roles")
+    @JoinTable(name = "Users_roles")
     private List<Role> roles;
 
     public User(String firstName, String lastName, String eMail, String passwordHash, String city, String country, String zipCode, String street, String birthDate, String pesel, String phone, boolean preferEmails) {
@@ -42,6 +43,15 @@ public class User {
     }
 
     public User() {
+    }
+
+    public void addRole(Role role) {
+        if (roles == null) {
+            roles = new ArrayList<>();
+            roles.add(role);
+        } else if (!roles.contains(role)) {
+            roles.add(role);
+        }
     }
 
     public static User applyDTO(UserRegistrationDTO dto, String passwordHash) {

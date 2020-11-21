@@ -11,6 +11,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RoleRepository roleRepository;
 
     public void registerUser(UserRegistrationDTO dto) {
         userRepository.findByEMail(dto.geteMail())
@@ -18,7 +20,9 @@ public class UserService {
                     throw new EmailAlreadyExistsException("Email " + dto.geteMail() + " already in use.");
                 });
         final String passwordHash = passwordEncoder.encode(dto.getPassword());
-        userRepository.save(User.applyDTO(dto, passwordHash));
+        final User user = User.applyDTO(dto, passwordHash);
+        user.addRole(roleRepository.findByRoleName(Role.USER));
+        userRepository.save(user);
     }
 
 }
