@@ -7,6 +7,8 @@ import pl.sda.finalapp.app.categories.api.CategoryTreeDTO;
 import pl.sda.finalapp.app.categories.persistence.CategoryFromFileDTO;
 import pl.sda.finalapp.app.categories.persistence.CategoryDAO;
 import pl.sda.finalapp.app.categories.persistence.CategoryRepository;
+import pl.sda.finalapp.app.products.ProductService;
+import pl.sda.finalapp.app.products.ProductType;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -117,4 +119,5 @@ public class CategoryService {
                 .applyParentId(newParentId);
         categoryRepository.save(category);
     }
+
 }
