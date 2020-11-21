@@ -1,12 +1,17 @@
 package pl.sda.finalapp.app.categories.domain;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.finalapp.app.categories.api.CategoryDTO;
 import pl.sda.finalapp.app.categories.api.CategoryTreeDTO;
-import pl.sda.finalapp.app.categories.persistence.Category;
+import pl.sda.finalapp.app.categories.persistence.CategoryFromFileDTO;
 import pl.sda.finalapp.app.categories.persistence.CategoryDAO;
+import pl.sda.finalapp.app.categories.persistence.CategoryRepository;
 
+import javax.annotation.PostConstruct;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -14,6 +19,8 @@ import java.util.stream.Collectors;
 public class CategoryService {
 
     private CategoryDAO categoryDAO = CategoryDAO.getInstance();
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     public List<CategoryTreeDTO> findCategories(String searchText) {
         final List<CategoryTreeDTO> dtos = categoryDAO.getCategoryList().stream()
@@ -35,10 +42,10 @@ public class CategoryService {
     }
 
     public void addCategory(String categoryName, Integer parentId) {
-        final List<Category> categoryList = categoryDAO.getCategoryList();
-        Category newCategory = Category.applyFromCategory(categoryName);
-        newCategory.setParentId(parentId);
-        categoryList.add(newCategory);
+        final List<CategoryFromFileDTO> categoryFromFileDTOList = categoryDAO.getCategoryList();
+        CategoryFromFileDTO newCategoryFromFileDTO = CategoryFromFileDTO.applyFromCategory(categoryName);
+        newCategoryFromFileDTO.setParentId(parentId);
+        categoryFromFileDTOList.add(newCategoryFromFileDTO);
     }
 
     public List<CategoryDTO> findAll() {
@@ -47,7 +54,7 @@ public class CategoryService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<String> findCategoryNameById(Integer id){
+    public Optional<String> findCategoryNameById(Integer id) {
         return categoryDAO.getCategoryList().stream()
                 .filter(c -> c.getId().equals(id))
                 .findFirst()
@@ -70,4 +77,33 @@ public class CategoryService {
                     return p;
                 });
     }
+
+    @PostConstruct
+    void initializeCategories() {
+        if (categoryRepository.count() == 0) {
+            CategoryDAO categoryDAO = CategoryDAO.getInstance();
+            Map<Integer, Integer> oldChildAndOldParentIdsMap = new HashMap<>();
+            Map<Integer, Integer> newIdToOldIdMap = new HashMap<>();
+            final List<CategoryFromFileDTO> categoryDTOList = categoryDAO.getCategoryList();
+
+            for (CategoryFromFileDTO dto : categoryDTOList) {
+                oldChildAndOldParentIdsMap.put(dto.getId(), dto.getParentId());
+                final Category category = new Category(dto.getCategoryName());
+                final Category savedCategory = categoryRepository.save(category);
+                newIdToOldIdMap.put(savedCategory.getId(), dto.getId());
+            }
+            for (Integer newId : newIdToOldIdMap.keySet()) {
+                final Category category = categoryRepository.findById(newId).orElseThrow(() -> new RuntimeException("Kategoria o id " + newId + " nie znaleziona."));
+                final Integer oldId = newIdToOldIdMap.get(newId);
+                final Integer oldParentId = oldChildAndOldParentIdsMap.get(oldId);
+                final Integer newParentId = newIdToOldIdMap.entrySet().stream()
+                        .filter(e -> e.getValue().equals(oldParentId))
+                        .map(e -> e.getKey())
+                        .findFirst()
+                        .orElse(null);
+                categoryRepository.save(category.applyParentId(newParentId));
+            }
+        }
+    }
+
 }
