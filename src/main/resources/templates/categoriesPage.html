@@ -27,7 +27,7 @@
                 th:value="${p.id}"
                 th:text="${p.id} + ' ' + ${p.categoryName}" id="parentsList"></option>
     </select>
-    <button>Add categoryFromFileDTO</button>
+    <button>Add category</button>
 </form>
 <!--<div th:replace="fragments/footer :: footer"></div>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
@@ -46,7 +46,9 @@
         })
         $('#container').on('move_node.jstree', function (e, data) {
             console.log(data)
-            $.post("/moveCat", {newParentId: data.parent, movedId: data.node.id})
+            console.log("data.parent="+data.parent)
+            console.log("data.node.id="+data.node.id)
+            $.post("/moveCategory", {newParentId: data.parent, movedId: data.node.id})
         })
     });
 </script>

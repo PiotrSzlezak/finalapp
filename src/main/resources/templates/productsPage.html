@@ -25,7 +25,7 @@
         <td th:text="${p.pictureUrl}">Picture</td>
         <td th:text="${p.price}">Price</td>
         <td th:text="${p.productType.plName}">Product Type</td>
-        <td th:text="${p.categoryFromFileDTO}">Category</td>
+        <td th:text="${p.category}">Category</td>
 <!--        <td><a th:href="@{'/products/' + ${p.id}}">Edytuj produkt</a></td>-->
         <td><a th:href="@{/products/{id}(id=${p.id})}">Edytuj produkt</a></td>
     </tr>
@@ -49,7 +49,7 @@
     </select>
     <select name="categoryId">
         <option th:value="''"
-                th:text="'Choose categoryFromFileDTO'"></option>
+                th:text="'Choose category'"></option>
         <option th:each="c : ${categoriesList}"
                 th:value="${c.id}"
                 th:text="${c.id} + ' ' + ${c.categoryName}" id="parentsList"></option>
