@@ -1,16 +1,19 @@
 package pl.sda.finalapp.app.categories.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import pl.sda.finalapp.app.categories.domain.CategoryService;
 
 import java.util.List;
 
-@Controller
+@Controller//klasyczny kontroler zwracający widoki
 public class CategoryController {
 
     @Autowired
@@ -32,9 +35,11 @@ public class CategoryController {
         return "redirect:/categories?searchText=" + categoryName;
     }
 
-    @PostMapping("/moveCategory")
-    public void moveCategory(@RequestParam Integer newParentId, @RequestParam Integer movedId){
+    @PostMapping("/moveCategory")//to jest ajax request
+    @ResponseBody //to spowoduje zwrócenie jsona
+    public ResponseEntity<String> moveCategory(@RequestParam Integer newParentId, @RequestParam Integer movedId){
         categoryService.moveCategory(newParentId, movedId);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Udało się");
     }
 
 }

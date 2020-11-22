@@ -1,16 +1,26 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <div th:fragment="header-css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!--        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"/>-->
+        <link rel="stylesheet" th:href="@{/css/main.css}"/>
+        <link rel="stylesheet" th:href="@{/css/signin.css}"/>
+<!--        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+<!--        <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>-->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--        <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>-->
+    </div>
 </head>
 <body>
 <div th:fragment="headerFragment">
+    <div class="topnav">
     <a href="/">Strona domowa</a>
     <a href="/categories">Kategorie</a>
     <a href="/products">Produkty</a>
     <a th:if="!${@userContextService.userName()}" href="/registration">Rejestracja</a>
     <p th:text="${@userContextService.userName()}"></p>
+    </div>
 </div>
 </body>
 </html>

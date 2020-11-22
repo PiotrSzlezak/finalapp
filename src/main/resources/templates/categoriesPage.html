@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Categories</title>
     <!-- 2 load the theme CSS file -->
-<!--    <div th:replace="fragments/header :: header-css"/>-->
+    <!--    <div th:replace="fragments/header :: header-css"/>-->
 </head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css"/>
 </head>
@@ -46,9 +46,16 @@
         })
         $('#container').on('move_node.jstree', function (e, data) {
             console.log(data)
-            console.log("data.parent="+data.parent)
-            console.log("data.node.id="+data.node.id)
-            $.post("/moveCategory", {newParentId: data.parent, movedId: data.node.id})
+            console.log("data.parent=" + data.parent)
+            console.log("data.node.id=" + data.node.id)
+            $.post("/moveCategory",
+                {
+                    newParentId: data.parent,
+                    movedId: data.node.id
+                }
+            ).success(function(data){
+                alert(data)
+            })
         })
     });
 </script>
