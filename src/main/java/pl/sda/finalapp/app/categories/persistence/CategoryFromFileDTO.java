@@ -22,7 +22,7 @@ public class CategoryFromFileDTO {
     }
 
     private static int calculateDepth(String t) {
-        if(!t.startsWith(" ")){
+        if(!t.startsWith(" ") && !t.startsWith("\t")){
             return 0;
         }
         return t.split("\\S+")[0].length();
