@@ -27,7 +27,7 @@ public class WeatherService {
         String country = user == null ? "PL" : user.getCountry();
         String cityAndCountry = (city==null || city.isBlank() || country==null || country.isBlank())?"Lublin,PL":city + "," + country;
         String url = apiUrl
-                + "?q=" + cityAndCountry
+                + "?q=" + "Lublin,pl" //fixme
                 + "&appId=" + apiKey
                 + "&units=" + "metric"
                 + "&lang=" + "pl";
